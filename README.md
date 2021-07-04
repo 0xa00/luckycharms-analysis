@@ -2,7 +2,7 @@
 > A detailed analysis of the cheat's inner-workings
 
 Injected library download for people who aren't interested in the write-up:
-* [LuckyCharms.dll](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/LuckyCharms.dll)
+* [LuckyCharms.dll](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/LuckyCharms.dll?raw=true)
 
 ### Initial user authentication
 Upon logging in, the loader will make several requests to requests to vps-5aaa99d9.vps.ovh.us to communicate with the server.
@@ -14,19 +14,19 @@ If the "insecure" option is disabled, the loader will send a kill signal to all 
 The loader will attempt to do this by calling [CreateProcessA](https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessa) on the Steam image path (lower-cased) with the flag __CREATE_SUSPENDED__.
 Various memory writing is done, and finally [CreateRemoteThread](https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createremotethread) is called. The process is then resumed using an undocumented system call, [NtResumeProcess](https://doxygen.reactos.org/da/d3c/ntoskrnl_2ps_2state_8c.html#a0fd8f14a401ca54d812602c721ad967c).
 
-- --> [mem0.bin](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/mem0.bin) NtWriteVirtualMemory(): 004B31E8 / 4
-- --> [mem1.bin](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/mem1.bin) NtWriteVirtualMemory(): 00721000 / 5632
-- --> [mem2.bin](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/mem2.bin) NtWriteVirtualMemory(): 00723000 / 2560
-- --> [mem3.bin](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/mem3.bin) NtWriteVirtualMemory(): 00724000 / 512
-- --> [mem4.bin](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/mem4.bin) NtWriteVirtualMemory(): 00725000 / 512
-- --> [mem5.bin](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/mem5.bin) NtWriteVirtualMemory(): 00726000 / 512
-- _lpParameter for startThread_ --> [mem6.bin](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/mem6.bin) NtWriteVirtualMemory(): 00730000 / 28
-- _shellcode_ --> [mem7.bin](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/mem7.bin) NtWriteVirtualMemory(): 0073001C / 304
+- --> [mem0.bin](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/mem0.bin?raw=true) NtWriteVirtualMemory(): 004B31E8 / 4
+- --> [mem1.bin](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/mem1.bin?raw=true) NtWriteVirtualMemory(): 00721000 / 5632
+- --> [mem2.bin](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/mem2.bin?raw=true) NtWriteVirtualMemory(): 00723000 / 2560
+- --> [mem3.bin](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/mem3.bin?raw=true) NtWriteVirtualMemory(): 00724000 / 512
+- --> [mem4.bin](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/mem4.bin?raw=true) NtWriteVirtualMemory(): 00725000 / 512
+- --> [mem5.bin](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/mem5.bin?raw=true) NtWriteVirtualMemory(): 00726000 / 512
+- _lpParameter for startThread_ --> [mem6.bin](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/mem6.bin?raw=true) NtWriteVirtualMemory(): 00730000 / 28
+- _shellcode_ --> [mem7.bin](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/mem7.bin?raw=true) NtWriteVirtualMemory(): 0073001C / 304
 - _shellcode execution_ --> CreateRemoteThread(): stackSize=0 startAddress=0073001C lpParameter=00730000
 
 ### Library injection
 The loader searches for a process with the image name __csgo.exe__ then creates a process handle.
-Following this, the library bytes are written into CS:GO (__6__ __NtWriteVirtualMemory__ calls), the [lpParameter](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/mem15.bin) (28) and [shellcode](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/mem16.bin) (256).
+Following this, the library bytes are written into CS:GO (__6__ __NtWriteVirtualMemory__ calls), the [lpParameter](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/mem15.bin?raw=true) (28) and [shellcode](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/mem16.bin?raw=true) (256).
 __CreateRemoteThread__ gets called to execute the shellcode.
 
 The loader will communicate with the library using two files:
