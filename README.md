@@ -1,7 +1,7 @@
 # LuckyCharms v4
 > A detailed analysis of the cheat's inner-workings
 
-Injected library download for people who aren't interested in the write-up:
+The dumped library that gets injected into CS:GO for people who aren't interested in the write-up (a.k.a. the cheat DLL):
 * [LuckyCharms.dll](https://github.com/0xa00/luckycharms-analysis/blob/main/bin/LuckyCharms.dll?raw=true)
 
 ### Initial user authentication
